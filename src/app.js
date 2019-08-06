@@ -22,11 +22,15 @@ app.use(cors());
 app.use(helmet());
 //routes
 const orgRouter = require('./routes/org.router');
+const commentRouter = require('./routes/comments.route');
+const noticeRouter = require('./routes/notices.route');
 
 
 
 //routes-->
 app.use('/',orgRouter);//get org
+app.use('/',commentRouter);
+app.use('/',noticeRouter);
 //end routes-->
 
 app.use((err, req, res, next)=>{

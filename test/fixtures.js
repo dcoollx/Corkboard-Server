@@ -2,21 +2,21 @@ module.exports = {
   createUsers(){
     return [
       {
-        username:'test1',
+        user_name:'test1',
         password:'password',
         isadmin:true,
         org:1,
       },
       
       {
-        username:'test2',
+        user_name:'test2',
         password:'password',
         isadmin:false,
         org:1,
       },
       
       {
-        username:'test3',
+        user_name:'test3',
         password:'password',
         isadmin:true,
         org:2,
