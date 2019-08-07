@@ -1,9 +1,10 @@
 const Router = require('express').Router();
 const dbService = require('../services/service.db');
 const parser = require('express').json();
+const auth = require('../middleware/auth');
 
 Router
-  .get('/:orgId/corkboard',(req,res,next)=>{
+  .get('/:orgId/corkboard',auth ,(req,res,next)=>{
     let {orgId} = req.params;
     //todo check if valid number
     dbService.getAllNotices(req.app.get('db'),orgId).then((result)=>{

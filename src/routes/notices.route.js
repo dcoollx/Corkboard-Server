@@ -1,8 +1,9 @@
 const Router = require('express').Router();
 const dbService = require('../services/service.db');
 const parser = require('express').json();
+const auth = require('../middleware/auth');
 
-Router.post('/:orgId/notices',parser,(req, res, err)=>{
+Router.post('/:orgId/notices',auth,parser,(req, res, err)=>{
   let {orgId} = req.params;
   let {title,content,created_by,org=1} = req.body;
   if(!title || !content || !created_by)

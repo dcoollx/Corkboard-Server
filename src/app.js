@@ -24,19 +24,22 @@ app.use(helmet());
 const orgRouter = require('./routes/org.router');
 const commentRouter = require('./routes/comments.route');
 const noticeRouter = require('./routes/notices.route');
+const loginRouter = require('./routes/login.route');
+const auth = require('./middleware/auth');
 
 
 
 //routes-->
-app.use('/',orgRouter);//get org
-app.use('/',commentRouter);
-app.use('/',noticeRouter);
+app.use('/', orgRouter);//get org//protected
+app.use('/', commentRouter);//protected
+app.use('/', noticeRouter);//protected
+app.use('/login',loginRouter);//protected
 //end routes-->
 
 app.use((err, req, res, next)=>{
   let response;
+  console.log(err);
   if(NODE_ENV === 'production'){
-    console.log(err);
     response = {error:{message:'Critical Server Error'}};
   }else{
     response = {error:{message:err.message,err}};

@@ -34,7 +34,7 @@ describe('all endpoints work as expected',()=>{
       it('returns 201 on post',()=>{ //post
         return request(app).post('/1/comments')
           .set('Content-Type','application/json')
-          .send({org_name:'sega inc.',admin:1})
+          .send({content:'test comment',posted_on:1,created_by:1})
           .expect(201);
       });
       it('returns 201 on update',()=>{ //patch an comment
