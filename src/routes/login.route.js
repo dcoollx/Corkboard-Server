@@ -14,14 +14,22 @@ Router.post('/',parser,(req, res, err)=>{
     if(query.rows.length <= 0 )
       return res.status(401).json({error:'invalid username or password'});
     else{
-      let user = query.rows[0]
-      //bcrypt.verify(password,user.password)
-      if(user.password === password)
-        return res.status(200).json({Auth:jwt.sign({org:1,sub: user.id},process.env.JWT_SECERT)});
-      else 
-        return res.status(401).json({error:'invalid username or password'});
+      dbService.getByName(req.app.get('db'),'orgs',org).then((db_search)=>{
+        if(db_search.rows.length <= 0)
+          return res.status(401).json({error:'org not found'});
+        else{
+          let org = db_search.rows[0];
+          let user = query.rows[0];
+          //bcrypt.verify(password,user.password)
+          if(user.password === password)
+            return res.status(200).json({Auth:jwt.sign({org:org.id,sub: user.id},process.env.JWT_SECERT)});
+          else 
+            return res.status(401).json({error:'invalid username or password'});
+        }
+      });
 
     }
+    
   });
 });
 

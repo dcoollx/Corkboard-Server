@@ -14,17 +14,15 @@ module.exports = function(req,res,next){
     if(err)
       return res.status(401).json({error:'Invalid Credentials'});
     else{
-      let {id} = decoded.sub;
-      let {org_id} = decoded.org;
+      let id = decoded.sub;
+      let org_id = decoded.org;
       req.app.get('db')('users').select('*').where({id}).first()
         .then(async (result) =>{
           let org = await  req.app.get('db')('orgs').select('*').where({id:org_id}).first()
           req.user = result;
           req.org= org;
-          console.log('user: ',req.user,'org: ',req.org); 
           next();
         });
-      next();
     }
   });
 };

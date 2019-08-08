@@ -1,14 +1,26 @@
 module.exports = {
   getAllNotices(db,org){
-    return db('notices').select('*').where({org});
+    return db('notices')
+      .innerJoin('users','notices.created_by','users.id')
+      .select('notices.id','title','content','user_name as created_by', 'created_on')
+      .where({'notices.org':org});
   },
   getOrgById(db,id){
     return db('orgs').select('*').where({id}).first();
   },
   getByName(db,table,name){
-    return db.raw(`SELECT * FROM ${table}s WHERE ${table}_name ='${name}' `);
+    return db(table).select('*').where(table[table.splice(table.length,1) + '_name'] = name);//tODO fix this to use knexs methods
   },
   createNew(db,table,obj){
     return db(table).insert(obj).returning('*');
+  },
+  getCommentByNotice(db, noticeId){
+    return db('comments')
+      .innerJoin('users','comments.created_by','users.id')
+      .select('content','user_name as created_by','created_on')
+      .where({'comments.posted_on':noticeId});
+  },
+  createComment(db,comment){
+    db('comments').insert(comment).returning('*');
   },
 };

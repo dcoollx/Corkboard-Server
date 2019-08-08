@@ -4,5 +4,5 @@ CREATE TABLE comments(
   created_by int REFERENCES users(id) ON DELETE CASCADE,
   org int REFERENCES orgs(id) ON DELETE CASCADE,
   posted_on int REFERENCES notices(id),
-  create_on TIMESTAMPTZ DEFAULT now()
+  created_on TIMESTAMPTZ DEFAULT now()
 );

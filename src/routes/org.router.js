@@ -4,8 +4,8 @@ const parser = require('express').json();
 const auth = require('../middleware/auth');
 
 Router
-  .get('/:orgId/corkboard',auth ,(req,res,next)=>{
-    let {orgId} = req.params;
+  .get('/corkboards',auth ,(req,res,next)=>{
+    let orgId = req.org.id;
     //todo check if valid number
     dbService.getAllNotices(req.app.get('db'),orgId).then((result)=>{
       if(result.length > 0)
