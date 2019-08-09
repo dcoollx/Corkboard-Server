@@ -8,8 +8,8 @@ module.exports = {
   getOrgById(db,id){
     return db('orgs').select('*').where({id}).first();
   },
-  getByName(db,table,name){
-    return db(table).select('*').where(table[table.splice(table.length,1) + '_name'] = name);//tODO fix this to use knexs methods
+  getByName(db,table,name){             /* this is to remove the 's' in the input */
+    return db(table).select('*').where(table.slice(0,table.length-1).concat('_name'), name).first();
   },
   createNew(db,table,obj){
     return db(table).insert(obj).returning('*');
