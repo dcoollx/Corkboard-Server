@@ -25,7 +25,7 @@ const orgRouter = require('./routes/org.router');
 const commentRouter = require('./routes/comments.route');
 const noticeRouter = require('./routes/notices.route');
 const loginRouter = require('./routes/login.route');
-const auth = require('./middleware/auth');
+const registerRoute = require('./routes/register.route');
 
 
 
@@ -34,6 +34,7 @@ app.use('/', orgRouter);//get org//protected
 app.use('/', commentRouter);//protected
 app.use('/', noticeRouter);//protected
 app.use('/login',loginRouter);//protected
+app.use('/register',registerRoute);
 //end routes-->
 
 app.use((err, req, res, next)=>{

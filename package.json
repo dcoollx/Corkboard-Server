@@ -1,5 +1,5 @@
 {
-  "name": "express-boilerplate",
+  "name": "corkboard-server",
   "version": "1.0.0",
   "description": "a template for express servers",
   "main": "src/server.js",
@@ -12,7 +12,8 @@
     "start": "src/node server.js",
     "migrate": "postgrator --config postgrator-config.js",
     "predeploy": "npm audit",
-    "deploy": "git push heroku master"
+    "deploy": "git push heroku master",
+    "postdeploy": "heroku run npm run migrate"
   },
   "repository": {
     "type": "git",
@@ -26,7 +27,7 @@
   },
   "homepage": "https://github.com/thinkful-ei-emu/DavidExpress#readme",
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",

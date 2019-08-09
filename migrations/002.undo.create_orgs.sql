@@ -1,3 +1,1 @@
-ALTER TABLE users
-  DROP COLUMN org;
 DROP TABLE IF EXISTS orgs;

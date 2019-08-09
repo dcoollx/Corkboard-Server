@@ -2,6 +2,7 @@ const Router = require('express').Router();
 const dbService = require('../services/service.db');
 const parser = require('express').json();
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
 Router.post('/',parser,(req, res, err)=>{
@@ -12,7 +13,7 @@ Router.post('/',parser,(req, res, err)=>{
 
   dbService.getByName(req.app.get('db'),'users',user_name).then(user=>{
     console.log('user',user);
-    if(!user.id)
+    if(!user)
       return res.status(401).json({error:'invalid username or password'});
     else{
       dbService.getByName(req.app.get('db'),'orgs',org).then((db_search)=>{
@@ -20,17 +21,18 @@ Router.post('/',parser,(req, res, err)=>{
           return res.status(401).json({error:'org not found'});
         else{
           let org = db_search;
-          //bcrypt.verify(password,user.password)
-          if(user.password === password)
-            return res.status(200).json({Auth:jwt.sign({org:org.id,sub: user.id},process.env.JWT_SECERT)});
-          else 
-            return res.status(401).json({error:'invalid username or password'});
+          bcrypt.compare(password,user.password).then(matches=>{
+            if(matches)
+              return res.status(200).json({Auth:jwt.sign({org:org.id,sub: user.id},process.env.JWT_SECERT)});
+            else 
+              return res.status(401).json({error:'invalid username or password'});
+          });
         }
-      });
+      }).catch(err);
 
     }
     
-  });
+  }).catch(err);
 });
 
 module.exports=Router;

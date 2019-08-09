@@ -4,6 +4,22 @@ const parser = require('express').json();
 const auth = require('../middleware/auth');
 
 Router
+  .get('/orgs',(req,res,err)=>{//get name of all orgs or one if specified
+    let {name} = req.query;
+    if(!name)
+      dbService.getAllOrgNames(req.app.get('db')).then(orgs=>res.status(200).json(orgs));
+    else{
+      dbService.getByName(req.app.get('db'),'orgs',name).then(org=>{
+        console.log(org);
+        if(!org)
+          res.status(404).json({error:'org not found'});
+        else{
+          res.status(200).json(org);
+        }
+      });
+    }
+
+  })
   .get('/corkboards',auth ,(req,res,next)=>{
     let orgId = req.org.id;
     //todo check if valid number
