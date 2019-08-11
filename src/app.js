@@ -9,7 +9,7 @@ require('dotenv').config();
 
 const {NODE_ENV} = require('./config');
 
-const morganOptions = 'common';
+const morganOptions = 'dev';
 
 const logger = winston.createLogger({
   level: 'info',
@@ -18,7 +18,10 @@ const logger = winston.createLogger({
     new winston.transports.File({filename:'info.log',level:'info'})
   ]
 });
+app.set('logger',logger);
 app.use(cors());
+app.use(morgan(morganOptions));
+
 app.use(helmet());
 //routes
 const orgRouter = require('./routes/org.router');
@@ -29,6 +32,7 @@ const registerRoute = require('./routes/register.route');
 
 
 
+
 //routes-->
 app.use('/', orgRouter);//get org//protected
 app.use('/', commentRouter);//protected
@@ -36,21 +40,19 @@ app.use('/', noticeRouter);//protected
 app.use('/login',loginRouter);//protected
 app.use('/register',registerRoute);
 //end routes-->
-
+app.get('/',(req,res)=>{
+  res.status(200).send('Hello World');
+});
 app.use((err, req, res, next)=>{
   let response;
   console.log(err);
+  logger.error(err.message + Date.now());
   if(NODE_ENV === 'production'){
     response = {error:{message:'Critical Server Error'}};
   }else{
     response = {error:{message:err.message,err}};
   }
   res.status(500).json(response);
-});
-app.use(cors());
-app.use(morgan(morganOptions));
-app.get('/',(req,res)=>{
-  res.status(200).send('Hello World');
 });
 
 module.exports = app;

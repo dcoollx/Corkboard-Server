@@ -12,7 +12,10 @@ Router.post('/',parser,(req, res, err)=>{
     return res.status(401).json({error:'must have username, password and org'});
 
   dbService.getByName(req.app.get('db'),'users',user_name).then(user=>{
-    console.log('user',user);
+    console.log('starting login');
+    let timer = 0;
+    let test = setTimeout(()=>timer++,1000);
+    
     if(!user)
       return res.status(401).json({error:'invalid username or password'});
     else{
@@ -22,8 +25,16 @@ Router.post('/',parser,(req, res, err)=>{
         else{
           let org = db_search;
           bcrypt.compare(password,user.password).then(matches=>{
-            if(matches)
-              return res.status(200).json({Auth:jwt.sign({org:org.id,sub: user.id},process.env.JWT_SECERT)});
+            if(matches){
+              console.log('finised login:', timer + 'seconds');
+              clearTimeout(test);
+              jwt.sign({org:org.id,sub: user.id},process.env.JWT_SECERT,(err,token)=>{
+                if(err)
+                  throw err;
+                else
+                  return res,status(200).json({Auth:token});
+              });
+            }
             else 
               return res.status(401).json({error:'invalid username or password'});
           });
