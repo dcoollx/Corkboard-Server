@@ -55,4 +55,26 @@ describe('all endpoints work as expected',()=>{
       });
     });
   });
+
+  context('Can login',()=>{
+      beforeEach('seed DataBase',async ()=>{
+        await db('users').insert(testData.createUsers());
+        await db('orgs').insert(testData.createOrg());
+      });
+      afterEach('erase db',async ()=>{
+        await db.raw('TRUNCATE users RESTART IDENTITY CASCADE');
+        
+      });
+    it('returns Auth token when correct info given',()=>{
+       return request(app)
+        .post('/login')
+        .send({'user_name':'test1',password:'password', org:'dunder-mifflin'})
+        .expect(401)
+        .expect((res)=>{
+          console.log(res.body);
+          expect(res.body).to.be.an('object');
+          expect(res.body).to.haveOwnProperty('Auth');
+        })
+    })
+  });
 });
