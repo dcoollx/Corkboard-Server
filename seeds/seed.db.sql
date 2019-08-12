@@ -3,9 +3,9 @@ BEGIN;
 	TRUNCATE users RESTART IDENTITY CASCADE;
 	INSERT INTO users (user_name, PASSWORD, isadmin)
 		VALUES 
-		('dcoollx','$2a$16$H6CLdnD1XwF3bLyc1Std3.tmXJk5.d7nB5p3w4OukKLEvisEfkt0a',TRUE),
-		('dunder','$2a$16$H6CLdnD1XwF3bLyc1Std3.tmXJk5.d7nB5p3w4OukKLEvisEfkt0a',FALSE),
-		('testuser3','$2a$16$ATRfgG0qThP8gRFBSDSzpejBPPrgPzoRh7lcg0i6r4DtQwPjwcetS',TRUE);
+		('dcoollx','$2a$10$tZgSFwouoo5wbdjjcEnGsuJvqjLdSAKtrxYVE7..7C7t.romxVYVK',TRUE),
+		('dunder','$2a$10$IeniB5mrYhlqeZ1/DZEfreKnfeO10JVDCryYHYusJRpE2KWrW9K8G',FALSE),
+		('testuser3','$2a$10$B79SEBS/I6RUufn0gYmmjeXcGB80VUSYdfelSDqzn/v/6AYZyu9pu',TRUE);
 	INSERT INTO orgs (org_name,admin)
 		VALUES
 		('dunder-mifflin',3),

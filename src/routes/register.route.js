@@ -10,7 +10,7 @@ Router
     let {user_name, password, org } = req.body;
     if(!user_name || !password || !org)
       return res.status(400).json({error:'must include user_name, password and org'});
-    bcrypt.hash(password,16).then(password=>{
+    bcrypt.hash(password,10).then(password=>{
       dbService.createNew(req.app.get('db'),'users',{user_name,password,org})
         .then((newUser)=>{
           res.status(201).location(newUser.id).json(newUser);

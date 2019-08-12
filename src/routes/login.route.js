@@ -6,11 +6,14 @@ const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
 Router.post('/',parser,(req, res, err)=>{
+  let timer =0;
+  let test = setTimeout(()=>++timer,1000);
   let {user_name, password, org} = req.body;
   if(!user_name || !password || !org)
     return res.status(401).json({error:'must have username, password and org'});
 
-  dbService.getByName(req.app.get('db'),'users',user_name).then(user=>{  
+  dbService.getByName(req.app.get('db'),'users',user_name).then(user=>{
+    console.log('timer',timer);  
     if(!user)
       return res.status(401).json({error:'invalid username or password'});
     else{
@@ -19,9 +22,11 @@ Router.post('/',parser,(req, res, err)=>{
           return res.status(401).json({error:'org not found'});
         else{
           let org = db_search;
+          console.log('timer:',timer);
           bcrypt.compare(password,user.password).then(matches=>{
             if(matches){
               jwt.sign({org:org.id,sub: user.id},process.env.JWT_SECERT,(err,token)=>{
+                console.log('timer',timer);
                 if(err)
                   throw err;
                 else{
