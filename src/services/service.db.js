@@ -26,4 +26,7 @@ module.exports = {
   createComment(db,comment){
     return db('comments').insert(comment).returning('*');
   },
+  getNoticeById(db,id){
+    return db('notices').select('*').where({id}).first();
+  },
 };

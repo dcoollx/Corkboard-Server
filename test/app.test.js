@@ -66,15 +66,16 @@ describe('all endpoints work as expected',()=>{
         
       });
     it('returns Auth token when correct info given',()=>{
+      
        return request(app)
         .post('/login')
         .send({'user_name':'test1',password:'password', org:'dunder-mifflin'})
-        .expect(401)
+        .expect(200)
         .expect((res)=>{
           console.log(res.body);
           expect(res.body).to.be.an('object');
           expect(res.body).to.haveOwnProperty('Auth');
         })
-    })
+    }).timeout(8000);
   });
 });

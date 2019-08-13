@@ -13,6 +13,17 @@ Router.post('/notices',auth,parser,(req, res, err)=>{
     .then((result)=>{
       res.status(201).json(result);
     }).catch(err);
+}).get('/notices/:id',(req,res,err)=>{
+  let {id} = req.params;
+  if(isNaN(id))
+    return res.status(404).json({error:'notice not found'});
+  dbService.getNoticeById(req.app.get('db'),id).then((notice)=>{
+    if(!notice.id)
+      return res.status(404).json({error:'notice not found'});
+    else{
+      return res.status(200).json(notice);
+    }
+  });
 });
 
 module.exports=Router;
