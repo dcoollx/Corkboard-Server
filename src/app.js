@@ -29,6 +29,8 @@ const commentRouter = require('./routes/comments.route');
 const noticeRouter = require('./routes/notices.route');
 const loginRouter = require('./routes/login.route');
 const registerRoute = require('./routes/register.route');
+const teamRoute = require('./routes/teams.route');
+const userRoute = require('./routes/users.route');
 
 
 
@@ -39,6 +41,8 @@ app.use('/', commentRouter);//protected
 app.use('/', noticeRouter);//protected
 app.use('/login',loginRouter);//protected
 app.use('/register',registerRoute);
+app.use('/teams',teamRoute);//protected
+app.use('/',userRoute);
 //end routes-->
 app.get('/',(req,res)=>{
   res.status(200).send('Hello World');

@@ -7,11 +7,11 @@ require('dotenv').config();
 
 Router
   .post('/user',parser, (req,res,err)=>{//register a user
-    let {user_name, password, org } = req.body;
+    let {user_name, password, org, display_name, user_position } = req.body;
     if(!user_name || !password || !org)
       return res.status(400).json({error:'must include user_name, password and org'});
     bcrypt.hash(password,10).then(password=>{
-      dbService.createNew(req.app.get('db'),'users',{user_name,password,org})
+      dbService.createNew(req.app.get('db'),'users',{user_name,password,org,display_name, user_position})
         .then((newUser)=>{
           res.status(201).location(newUser.id).json(newUser);
         }).catch(err);

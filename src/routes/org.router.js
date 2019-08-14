@@ -30,15 +30,18 @@ Router
         res.status(404).json({error:'no notices found for that organization'});
     }).catch(next);
     
-  }).post('/organizations',parser,(req,res,next)=>{
-    let {org_name, admin} = req.body;
+  }).post('/organizations',auth,parser,(req,res,next)=>{
+    let {org_name} = req.body;
     //todo validate org name
-    if(!org_name || !admin)
+    if(!org_name )
       return res.status(400).json({error:'invalid org'});
-    dbService.getByName(req.app.get('db'),'org',org_name).then(query=>{ // a little problem with org param, need to remove s for it to work, will fix later
-      if(!query.rows || query.rows.length <= 0)
-        return dbService.createNew(req.app.get('db'),'orgs',{org_name,admin})
+    dbService.getByName(req.app.get('db'),'orgs',org_name).then(org=>{ // a little problem with org param, need to remove s for it to work, will fix later
+      if(!org)
+        return dbService.createNew(req.app.get('db'),'orgs',{org_name,admin:req.user.id})
           .then(newObj=>res.status(201).json(newObj));//todo add location
+      else{
+        return res.status(400).json({error:'Org Already exists'});
+      }
 
     }).catch(next);
     

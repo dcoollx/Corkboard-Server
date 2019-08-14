@@ -20,13 +20,29 @@ module.exports = {
   getCommentByNotice(db, noticeId){
     return db('comments')
       .innerJoin('users','comments.created_by','users.id')
-      .select('content','user_name as created_by','created_on')
+      .select('content','display_name as created_by','created_on')
       .where({'comments.posted_on':noticeId});
   },
   createComment(db,comment){
     return db('comments').insert(comment).returning('*');
   },
   getNoticeById(db,id){
-    return db('notices').select('*').where({id}).first();
+    return db('notices')
+      .innerJoin('users', 'notices.created_by','users.id')
+      .select('notices.id','title','content','level','display_name as created_by','created_on')
+      .where({'notices.id':id}).first();
+  },
+  getAllTeamsByOrgId(db,id){
+    return db('teams').select('id','team_name').where({member_of:id});
+  },
+  /**
+   * 
+   * @param {KnexInstance} db 
+   * @param {string} table 
+   * @param {object} update 
+   * @param {number} id: INT
+   */
+  update(db,table,update,id){//update should be an object
+    return db(table).update(update).where({id});
   },
 };

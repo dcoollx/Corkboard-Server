@@ -1,16 +1,22 @@
 BEGIN;
 	
 	TRUNCATE users RESTART IDENTITY CASCADE;
-	INSERT INTO users (user_name,first_name, last_name, PASSWORD, isadmin,reports_to,user_position,org)
-		VALUES 
-		('dcoollx','David','Queen','$2a$10$tZgSFwouoo5wbdjjcEnGsuJvqjLdSAKtrxYVE7..7C7t.romxVYVK',TRUE,null,4,1),
-		('dunder','Dunder','Mifflin','$2a$10$IeniB5mrYhlqeZ1/DZEfreKnfeO10JVDCryYHYusJRpE2KWrW9K8G',FALSE,1,1,2),
-		('testuser3','Test','User','$2a$10$B79SEBS/I6RUufn0gYmmjeXcGB80VUSYdfelSDqzn/v/6AYZyu9pu',TRUE,null,3,3);
-	INSERT INTO orgs (org_name,admin,part_of)
+	INSERT INTO orgs (org_name,admin)
 		VALUES
-		('dunder-mifflin',3,null),
-		('ItGuyz',1,null),
-    ('dunder-mifflin West',3,1);
+		('dunder-mifflin',null),
+		('ItGuyz',null),
+    ('dunder-mifflin West',null);
+    INSERT INTO users (user_name,display_name, PASSWORD, isadmin,reports_to,user_position,org)
+		VALUES 
+		('dcoollx','David','$2a$10$tZgSFwouoo5wbdjjcEnGsuJvqjLdSAKtrxYVE7..7C7t.romxVYVK',TRUE,null,4,1),
+		('dunder','Dunder','$2a$10$IeniB5mrYhlqeZ1/DZEfreKnfeO10JVDCryYHYusJRpE2KWrW9K8G',FALSE,1,1,2),
+		('testuser3','Test','$2a$10$B79SEBS/I6RUufn0gYmmjeXcGB80VUSYdfelSDqzn/v/6AYZyu9pu',TRUE,null,3,3);
+    UPDATE orgs 
+      SET admin = 1 WHERE id=2;
+    UPDATE orgs 
+      SET admin = 3 WHERE id= 1;
+    UPDATE orgs 
+      SET admin = 3 WHERE id=3;
 	INSERT INTO notices (title, CONTENT,created_by,org,level)
 		VALUES 
 		('Test Notice','this is a test for the notifcation system',1,1,1),
