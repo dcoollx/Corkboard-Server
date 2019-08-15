@@ -18,8 +18,8 @@ describe('all endpoints work as expected',()=>{
   
   describe('CRUD operations on comments',()=>{
     beforeEach('seed DataBase',async ()=>{
-      await db('users').insert(testData.createUsers());
       await db('orgs').insert(testData.createOrg());
+      await db('users').insert(testData.createUsers());
       await db('notices').insert(testData.createNotice());
       await db('comments').insert(testData.createComments());
     });
@@ -54,12 +54,28 @@ describe('all endpoints work as expected',()=>{
           .expect(204);
       });
     });
+    context('Fail path',()=>{
+      it('rejects incorrect request',()=>{
+        return request(app).post('/1/comments')
+        .set('Content-Type','application/json')
+        .set(token)
+        .send({content:'test comment',created_by:1})
+        .expect(400);
+      })
+      it('rejects unauthorized request',()=>{
+        return request(app).post('/1/comments')
+        .set('Content-Type','application/json')
+        .send({content:'test comment',posted_on:1,created_by:1})
+        .expect(401);
+      })
+    });
   });
 
   context('Can login',()=>{
       beforeEach('seed DataBase',async ()=>{
-        await db('users').insert(testData.createUsers());
         await db('orgs').insert(testData.createOrg());
+        await db('users').insert(testData.createUsers());
+        
       });
       afterEach('erase db',async ()=>{
         await db.raw('TRUNCATE users RESTART IDENTITY CASCADE');
@@ -77,5 +93,27 @@ describe('all endpoints work as expected',()=>{
           expect(res.body).to.haveOwnProperty('Auth');
         })
     }).timeout(8000);
+    it('can register a new user',()=>{
+      return request(app).post('/register/user')
+        .set('content-type','application/json')
+        .send({display_name:'David',password:'password',user_name:'awesome',org:1,user_position:1})
+        .expect(201);
+    });
+    it('can register a new org',()=>{
+      return request(app).post('/register/orgs')
+        .set('content-type','application/json')
+        .send({org_name:'David',admin:null})
+        .expect(201);
+    });
+  });
+  context('teams',()=>{
+    it('can create a new team',()=>{
+      return request(app).post('/teams')
+          .set('Content-Type','application/json')
+          .set(token)
+          .send({team_name:'test-team'})
+          .expect(201);
+
+    });
   });
 });

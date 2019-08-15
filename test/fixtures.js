@@ -3,8 +3,7 @@ module.exports = {
     return [
       {
         user_name:'test1',
-        first_name:'Test',
-        last_name:'User',
+        display_name:'Test',
         password:'$2a$16$wLb7fCyq6gtRzDJyswOxbOuVOSh/lguktVJwThn4DSRBD8Ms9bBMm',
         isadmin:true,
         user_position:1,
@@ -13,8 +12,7 @@ module.exports = {
       
       {
         user_name:'test2',
-        first_name:'Test',
-        last_name:'User',
+        display_name:'Test',
         reports_to:1,
         password:'$2a$16$wLb7fCyq6gtRzDJyswOxbOuVOSh/lguktVJwThn4DSRBD8Ms9bBMm',
         isadmin:false,
@@ -24,8 +22,7 @@ module.exports = {
       
       {
         user_name:'test3',
-        first_name:'Test',
-        last_name:'User',
+        display_name:'User',
         reports_to:1,
         user_position:1,
         password:'$2a$16$wLb7fCyq6gtRzDJyswOxbOuVOSh/lguktVJwThn4DSRBD8Ms9bBMm',
@@ -37,10 +34,10 @@ module.exports = {
   createOrg(){
     return [{
       org_name:'dunder-mifflin',
-      admin:1
+      admin:null
     },{
       org_name:'mcdonalds',
-      admin:3
+      admin:null
     }];
   },
   createNotice(){
