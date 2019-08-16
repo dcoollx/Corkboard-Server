@@ -27,7 +27,7 @@ Router
       if(result.length > 0)
         res.status(200).json({notices:result});
       else
-        res.status(404).json({error:'no notices found for that organization'});
+        res.status(204).json({error:'no notices found for that organization'});
     }).catch(next);
     
   }).post('/organizations',auth,parser,(req,res,next)=>{

@@ -2,19 +2,21 @@ const Router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const dbService = require('../services/service.db');
 const parser = require('express').json();
-const jwt = require('jsonwebtoken');
 require('dotenv').config();
-
+let welcomeNotice ={title:'Welcome to CorkBoard!',content:'##We are So excited to meet you!\n___\n![excited scream](https://media3.giphy.com/media/7eAvzJ0SBBzHy/source.gif)\n\u003ewelcome to corkboard, the _easiest_ way to communicate to your team!\n###How to use corkboard.\n1. make an Account (_wait i think you did that part already_) (o_o)\n2. create a team.\n    1. open settings\n    2. click create a team\n3. Post a message!\n    - use the [+](\'/newNotice\') button to create a Messages just like this one.\n    - Coarboard Messages supports HTML \u0026 [Markdown](https://www.markdowntutorial.com/)\n4. Comment on Messages\n\u003eafter a Message is created, you team members can comment on them!\n5. Have Fun!\n\n\n',level:1,org:null,created_by:1};
 Router
   .post('/user',parser, (req,res,err)=>{//register a user
     let {user_name, password, org, display_name, user_position } = req.body;
+    console.log( req.body);
     if(!user_name || !password || !org || !user_position)
       return res.status(400).json({error:'must include user_name, password and org'});
     bcrypt.hash(password,10).then(password=>{
       dbService.createNew(req.app.get('db'),'users',{user_name,password,org,display_name, user_position})
-        .then((newUser)=>{
+        .then(async (newUser)=>{
+          welcomeNotice.org= org;
+           await dbService.createNew(req.app.get('db'),'notices',welcomeNotice);//add welcome Notice
           res.status(201).location(newUser.id).json(newUser);
-        }).catch(err);
+        }).catch(err=>res.status(400).json({error:'User already Exist'}));
     });
    
 

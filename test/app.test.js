@@ -29,6 +29,11 @@ describe('all endpoints work as expected',()=>{
     });
     context('success path',()=>{
       it('returns 200 and notices',()=>{ //get
+        return request(app).get('/corkboards')
+          .set(token)
+          .expect(200);
+      });
+      it('returns 200 and comments',()=>{ //get
         return request(app).get('/1/comments')
           .set(token)
           .expect(200);
