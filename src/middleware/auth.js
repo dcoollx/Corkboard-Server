@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 module.exports = function(req,res,next){
   let auth = req.get('Authorization');
   if(!auth)
-    return res.status(401).json({err:'no auth token'});
+    return res.status(401).json({error:'no auth token'});
   let [type, token] = auth.split(' ');
   if(type.toLowerCase() !== 'bearer')
     return res.status(401).json({error:'missing correct auth token'});

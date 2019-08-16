@@ -1,7 +1,7 @@
 const app = require('../src/app');
 const knex = require('knex');
 const testData = require('./fixtures');
-const token ={Authorization:'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmciOjEsInN1YiI6MSwiaWF0IjoxNTY1MzE2MDU2fQ.7jrW_rKVCNLuOT8_IGFZMUT6HR5G37dhD2aiHuubFpM'};
+const token ={Authorization:'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdfbmFtZSI6ImR1bmRlci1taWZmbGluIiwib3JnIjoxLCJzdWIiOjEsImlhdCI6MTU2NTg5OTg1N30.vjiVagmR_Ulv77BM3eJ0GPH9pLB7KTvrrMSFKL45fQo'};
 require('dotenv').config();
 let db;
 describe('all endpoints work as expected',()=>{
@@ -39,19 +39,6 @@ describe('all endpoints work as expected',()=>{
           .set(token)
           .send({content:'test comment',posted_on:1,created_by:1})
           .expect(201);
-      });
-      it('returns 201 on update',()=>{ //patch an comment
-        return request(app).patch('/1/comments')// will change to "/:org/corkboard"
-          .set('Content-Type','application/json')
-          .set(token)
-          .send({userId:'admin',title:'test1',content:'Everyone is Fired'})
-          .expect(201);
-      });
-      it('returns 204 on Delete',()=>{ //delete an comment
-        return request(app).delete('/1/comments/1')// will change to "/:org/corkboard"
-          .set('Content-Type','application/json')
-          .set(token)
-          .expect(204);
       });
     });
     context('Fail path',()=>{
