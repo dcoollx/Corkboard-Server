@@ -1,4 +1,4 @@
-#CORCKBOARD SERVER
+# CORCKBOARD SERVER
 
 
 
@@ -15,14 +15,14 @@ Run the tests `npm test`
 
 When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
 
-#Routes and endpoints
+# Routes and endpoints
 
-##get
+## get
 
 >`/:noticeId/comments`- returns all comments for given notice
 
 >`/corkboards` - returns all notices for given org -protected
-##POST
+## POST
 
 >`/notices` = create new post with given org- requires `title`, `content`
 
@@ -31,4 +31,4 @@ When your new project is ready for deployment, add a new Heroku application with
 
 >`/organizations` create a new org -requires a `org_name` and a user id for `admin`
 
-###Tech
+### Tech
