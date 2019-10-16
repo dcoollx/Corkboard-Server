@@ -17,6 +17,5 @@ CREATE TABLE users (
   user_name VARCHAR NOT NULL UNIQUE,
   password VARCHAR NOT NULL,
   user_position INT NOT NULL REFERENCES position(id),
-  reports_to INT REFERENCES users(id),
   isAdmin BOOLEAN DEFAULT FALSE
   );
