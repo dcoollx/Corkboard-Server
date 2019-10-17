@@ -14,10 +14,22 @@ Router
         if(!org)
           res.status(404).json({error:'org not found'});
         else{
-          res.status(200).json(org);
+          res.status(200).json(org);//todo should only return name of org
         }
       });
     }
+
+  })
+  .get('/code',(req,res,next)=>{//look up org by code. this should return all info
+    //endpoint/code?code=8digitcode
+    let {code} = req.query;
+    if(code.length !== 8)
+      return res.status(400).json({err:'invalid org code'});
+    dbService.getOrgByCode(req.app.get('db'),code).then(org=>{
+      if(org === undefined)
+        return res.status(404).json({err:'Org not found'});
+      return res.status(200).json(org);
+    });
 
   })
   .get('/corkboards',auth ,(req,res,next)=>{
@@ -30,24 +42,5 @@ Router
         res.status(204).json({error:'no notices found for that organization'});
     }).catch(next);
     
-  }).post('/organizations',auth,parser,(req,res,next)=>{
-    let {org_name} = req.body;
-    //todo validate org name
-    if(!org_name )
-      return res.status(400).json({error:'invalid org'});
-    dbService.getByName(req.app.get('db'),'orgs',org_name).then(org=>{ // a little problem with org param, need to remove s for it to work, will fix later
-      if(!org)
-        return dbService.createNew(req.app.get('db'),'orgs',{org_name,admin:req.user.id})
-          .then(newObj=>res.status(201).json(newObj));//todo add location
-      else{
-        return res.status(400).json({error:'Org Already exists'});
-      }
-
-    }).catch(next);
-    
-
-
-    //create a new org, will be protected
-
   });
 module.exports = Router;

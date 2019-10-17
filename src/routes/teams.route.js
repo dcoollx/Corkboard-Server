@@ -17,7 +17,7 @@ Router
     console.log('user',req.org);
     if(!team_name)
       return res.status(400).json({error:'need team_name to create a new team'});
-    dbService.createNew(req.app.get('db'),'teams',{team_name,admin:req.user.id,member_of:req.org.id})
+    dbService.createNew(req.app.get('db'),'orgs',{org_name:team_name,admin:req.user.id,parent:req.org.id})
       .then(result=>{
         //first join user to that team
         console.log({team:result[0].id});

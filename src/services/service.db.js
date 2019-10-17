@@ -8,6 +8,9 @@ module.exports = {
   getOrgById(db,id){
     return db('orgs').select('*').where({id}).first();
   },
+  getOrgByCode(db,code){
+    return db('orgs').select('*').where({code}).first();
+  },
   getAllOrgNames(db){
     return db('orgs').select('org_name');
   },
@@ -33,7 +36,7 @@ module.exports = {
       .where({'notices.id':id}).first();
   },
   getAllTeamsByOrgId(db,id){
-    return db('teams').select('id','team_name').where({member_of:id});
+    return db('orgs').select('id','org_name as team_name').where({parent:id});
   },
   /**
    * 
