@@ -23,7 +23,7 @@ Router
         console.log({team:result[0].id});
         dbService.update(req.app.get('db'),'users',{team:result[0].id},req.user.id)
           .then(()=>{
-            return res.status(200).json(result);
+            return res.status(201).json(result);
           });
       }).catch(err);
 

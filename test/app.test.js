@@ -15,18 +15,18 @@ describe('all endpoints work as expected',()=>{
   });
 
   after('disconnect from database',()=>db.destroy());
+  beforeEach('seed DataBase',async ()=>{
+    await db('orgs').insert(testData.createOrg());
+    await db('users').insert(testData.createUsers());
+    await db('notices').insert(testData.createNotice());
+    await db('comments').insert(testData.createComments());
+  });
+  afterEach('erase db',async ()=>{
+    await db.raw('TRUNCATE users RESTART IDENTITY CASCADE');
+    
+  });
   
   describe('CRUD operations on comments',()=>{
-    beforeEach('seed DataBase',async ()=>{
-      await db('orgs').insert(testData.createOrg());
-      await db('users').insert(testData.createUsers());
-      await db('notices').insert(testData.createNotice());
-      await db('comments').insert(testData.createComments());
-    });
-    afterEach('erase db',async ()=>{
-      await db.raw('TRUNCATE users RESTART IDENTITY CASCADE');
-      
-    });
     context('success path',()=>{
       it('returns 200 and notices',()=>{ //get
         return request(app).get('/corkboards')
