@@ -5,7 +5,7 @@ CREATE TABLE notices(
   content TEXT,
   level INT NOT NULL REFERENCES lvl(id), 
   org int NOT NULL REFERENCES orgs(id) ON DELETE SET NULL,
-  created_by INT REFERENCES users(id) ON DELETE SET NUll,
+  created_by INT NULL REFERENCES users(id) ON DELETE SET NUll,
   created_on TIMESTAMPTZ DEFAULT now()
   --need expiration
  
