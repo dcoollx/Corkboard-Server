@@ -23,11 +23,11 @@ Router
     let {org_name} = req.body;
     if(!org_name)
       return res.status(400).json({error:'need org name and user id'});
-    dbService.createNew(req.app.get('db'),'orgs',{org_name, code:short.generate()}).then((newOrg)=>{
-      debugger;
-      if(newOrg.parent = null){//this is an org, not a team
-        welcomeNotice.org= newOrg.id;
-        dbService.createNew(req.app.get('db'),'notices',welcomeNotice);//add welcome Notice
+    dbService.createNew(req.app.get('db'),'orgs',{org_name, code:short.generate()}).then(async (newOrg)=>{
+      //debugger;
+      if(newOrg[0].parent === null){//this is an org, not a team
+        welcomeNotice.org= newOrg[0].id;
+        await dbService.createNew(req.app.get('db'),'notices',welcomeNotice);//add welcome Notice
       }
       return res.status(201).json(newOrg);
     }).catch(err);
