@@ -32,3 +32,14 @@ When your new project is ready for deployment, add a new Heroku application with
 >`/organizations` create a new org -requires a `org_name` and a user id for `admin`
 
 ### Tech
+
+## frontend
+ - Reactjs
+ - Markdown
+ - Siema
+## backend
+ - Node
+ - express
+ - shortId
+ - Mocha
+ 
