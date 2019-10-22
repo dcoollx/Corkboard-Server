@@ -10,14 +10,14 @@ Router.
     dbService.getCommentByNotice(req.app.get('db'), noticeId)
       .then(query=>{
         if(!query)
-          return res.status(404).json({error:'notice not found'});
+          return res.status(404).json({error:'Notice Not Found'});
         else
           return res.status(200).json(query);
       }).catch(next);
   }).post(auth,parser,(req,res,next)=>{
     let {content, posted_on} = req.body;
     if(!content||!posted_on)
-      return res.status(400).json({error:'must include content, created_by, and posted_on'});
+      return res.status(400).json({error:'Must Include Content, Created by, and Posted on'});
     let comment = {content, created_by:req.user.id, posted_on};
     dbService.createComment(req.app.get('db'),comment).then(results=>{
       results[0].created_by = req.user.display_name;

@@ -12,7 +12,7 @@ Router
       dbService.getByName(req.app.get('db'),'orgs',name).then(org=>{
         console.log(org);
         if(!org)
-          res.status(404).json({error:'org not found'});
+          res.status(404).json({error:'Organization Not Found'});
         else{
           res.status(200).json(org);//todo should only return name of org
         }
@@ -24,10 +24,10 @@ Router
     //endpoint/code?code=8digitcode
     let {code} = req.query;
     if(code.length !== 8)
-      return res.status(400).json({err:'invalid org code'});
+      return res.status(400).json({err:'Invalid Organization Code'});
     dbService.getOrgByCode(req.app.get('db'),code).then(org=>{
       if(org === undefined)
-        return res.status(404).json({err:'Org not found'});
+        return res.status(404).json({err:'Organization Not Found'});
       return res.status(200).json(org);
     });
 
@@ -39,7 +39,7 @@ Router
       if(result.length > 0)
         res.status(200).json({notices:result});
       else
-        res.status(204).json({error:'no notices found for that organization'});
+        res.status(204).json({error:'No Notices Found For That Organization'});
     }).catch(next);
     
   });

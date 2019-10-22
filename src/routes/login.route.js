@@ -10,15 +10,15 @@ Router.post('/',parser,(req, res, err)=>{
   let test = setTimeout(()=>++timer,1000);
   let {user_name, password} = req.body;
   if(!user_name || !password)
-    return res.status(401).json({error:'must have username, password'});
+    return res.status(401).json({error:'Must Have Username, Password'});
 
   dbService.getByName(req.app.get('db'),'users',user_name).then(user=>{  
     if(!user)
-      return res.status(401).json({error:'invalid username or password'});
+      return res.status(401).json({error:'Invalid Username or Password'});
     else{
       dbService.getOrgById(req.app.get('db'),user.org).then(org=>{
         if(!org.id)
-          return res.status(401).json({error:'org not found'});
+          return res.status(401).json({error:'Organization Not Found'});
         else{
           bcrypt.compare(password,user.password).then(matches=>{
             if(matches){
@@ -31,7 +31,7 @@ Router.post('/',parser,(req, res, err)=>{
               });
             }
             else 
-              return res.status(401).json({error:'invalid username or password'});
+              return res.status(401).json({error:'Invalid Username or Password'});
           });
         }
       }).catch(err);

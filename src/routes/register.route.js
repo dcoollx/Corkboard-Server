@@ -10,7 +10,7 @@ Router
     let {user_name, password, org, display_name, user_position } = req.body;
     console.log( req.body);
     if(!user_name || !password || !org || !user_position)
-      return res.status(400).json({error:'must include user_name, password and org'});
+      return res.status(400).json({error:'Must include user name, password, position and organization'});
     bcrypt.hash(password,10).then(password=>{
       dbService.createNew(req.app.get('db'),'users',{user_name,password,org,display_name, user_position})
         .then(async (newUser)=>{
@@ -22,7 +22,7 @@ Router
   }).post('/orgs',parser, (req,res,err)=>{ //register an org
     let {org_name} = req.body;
     if(!org_name)
-      return res.status(400).json({error:'need org name and user id'});
+      return res.status(400).json({error:'Need Organization Name and User Id'});
     dbService.createNew(req.app.get('db'),'orgs',{org_name, code:short.generate()}).then(async (newOrg)=>{
       //debugger;
       if(newOrg[0].parent === null){//this is an org, not a team

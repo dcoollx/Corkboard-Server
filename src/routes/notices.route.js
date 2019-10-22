@@ -8,7 +8,7 @@ Router.post('/notices',auth,parser,(req, res, err)=>{
   let created_by = req.user.id;
   let {title,content,level} = req.body;
   if(!title || !content || !created_by || !level)
-    return res.status(400).json({error:'title, level, content and created_by are required'});
+    return res.status(400).json({error:'Title, Level, Content and Created by are Required'});
   dbService.createNew(req.app.get('db'),'notices',{title,content,created_by,org,level})
     .then((result)=>{
       res.status(201).json(result);
@@ -16,10 +16,10 @@ Router.post('/notices',auth,parser,(req, res, err)=>{
 }).get('/notices/:id',(req,res,err)=>{
   let {id} = req.params;
   if(isNaN(id))
-    return res.status(404).json({error:'notice not found'});
+    return res.status(404).json({error:'Notice Not Found'});
   dbService.getNoticeById(req.app.get('db'),id).then((notice)=>{
     if(!notice.id)
-      return res.status(404).json({error:'notice not found'});
+      return res.status(404).json({error:'Notice Not Found'});
     else{
       return res.status(200).json(notice);
     }

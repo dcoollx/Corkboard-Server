@@ -10,7 +10,7 @@ Router
       return res.status(400);
     else
       dbService.update(req.app.get('db'),'users',update,req.user.id).then(()=>{
-        return res.status(201).json({message:'user added to team'});
+        return res.status(201).json({message:'User added to team'});
       })
         .catch(err);
   });
