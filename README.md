@@ -45,7 +45,9 @@ this will also attempt a remote migration using postgrator
 >`/:noticeId/comments`- post a comments for given notice - requires `content` `posted_on`(notice id) and 
 `created_by`(user id)
 
->`/organizations` create a new org -requires a `org_name` and a user id for `admin
+>`register/organizations` - create a new org -requires a `org_name` and a user id for `admin
+
+<`register/user` - create a new user, requires user_name, org(id),password, position(int) 
 
 
 
