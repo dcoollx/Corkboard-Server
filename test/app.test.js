@@ -64,15 +64,7 @@ describe('all endpoints work as expected',()=>{
   });
 
   context('Can login',()=>{
-      beforeEach('seed DataBase',async ()=>{
-        await db('orgs').insert(testData.createOrg());
-        await db('users').insert(testData.createUsers());
-        
-      });
-      afterEach('erase db',async ()=>{
-        await db.raw('TRUNCATE users RESTART IDENTITY CASCADE');
-        
-      });
+  
     it('returns Auth token when correct info given',()=>{
       
        return request(app)
