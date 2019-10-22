@@ -47,7 +47,7 @@ this will also attempt a remote migration using postgrator
 
 >`register/organizations` - create a new org -requires a `org_name` and a user id for `admin
 
-<`register/user` - create a new user, requires user_name, org(id),password, position(int) 
+>`register/user` - create a new user, requires `user_name, org(id),password, position(int)`
 
 
 
