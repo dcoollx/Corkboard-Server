@@ -30,7 +30,7 @@ this will also attempt a remote migration using postgrator
 
 ### Routes and endpoints
 
-#### get
+#### GET
 
 >`/:noticeId/comments`- returns all comments for given notice
 
