@@ -1,4 +1,4 @@
-# CORCKBOARD SERVER
+# CORKBOARD SERVER
 This is the server for the [Corkboard](https://github.com/dcoollx/Corkboard-client) project.
 
 ## Tech/framework used
